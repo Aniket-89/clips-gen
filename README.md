@@ -1,9 +1,10 @@
-# 🎬 AutoShorts Generator
+# 🎬 TetsuAi
 
 An AI-powered tool to **automatically generate viral YouTube Shorts** from long-form videos.
 
 🚀 Save hours of manual editing. Just input a YouTube link — and get punchy, vertical clips ready to go.
 
+![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
 ---
 
 ## ✨ Features

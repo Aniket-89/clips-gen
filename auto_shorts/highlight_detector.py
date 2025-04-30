@@ -12,25 +12,64 @@ class Highlight:
 class HighlightDetector:
     def __init__(self):
         self.trigger_words = {
-    'high_impact': [
-        'die', 'death', 'danger', 'dangerous', 'kill', 'killed', 'crazy', 'insane',
-        'unbelievable', 'shocking', 'mind-blowing', 'disaster', 'collapse'
-    ],
-    'value': [
-        'million', 'billion', 'dollars', 'rupees', 'crore', 'lakh', 'money', 'cash',
-        'profit', 'free', 'jackpot', 'deal', 'rich', 'investment'
-    ],
-    'emotion': [
-        'love', 'hate', 'best', 'worst', 'never', 'ever', 'scared', 'afraid', 'happy', 
-        'sad', 'angry', 'excited', 'terrified', 'worried', 'anxious', 'thrilled', 
-        'devastated', 'emotional', 'crying', 'laughing', 'screaming', 'frightened',
-        'heartbreaking', 'beautiful', 'amazing', 'hilarious'
-    ],
-    'emphasis': [
-        'very', 'extremely', 'absolutely', 'completely', 'totally', 'literally', 
-        'honestly', 'seriously', 'really', 'so', 'super', 'ultra', 'mega', '!', '!!', '!!!'
-    ]
-}
+            "high_impact": [
+            "die", "death", "danger", "dangerous", "kill", "killed", "deadly", "fatal", "lethal",
+            "catastrophic", "tragic", "tragedy", "horrific", "horror", "terrifying", "apocalypse",
+            "doomsday", "extinction", "massacre", "slaughter", "perish", "devastation",
+            "crazy", "insane", "unbelievable", "shocking", "mind-blowing", "disaster", "collapse",
+            "crisis", "emergency", "chaos", "mayhem", "panic", "epidemic", "pandemic", "outbreak",
+            "explosion", "crash", "accident", "nightmare", "eruption", "meltdown", "breakdown",
+            "tsunami", "earthquake", "hurricane", "tornado", "flood", "drought", "famine",
+            "urgent", "critical", "vital", "immediate", "deadline", "countdown", "running out",
+            "last chance", "final", "ultimate", "breaking", "alert", "warning", "caution",
+            "attention", "imperative", "crucial", "essential", "breakthrough", "revolutionary"
+            ],
+            
+            "value": [
+            "million", "billion", "trillion", "dollars", "euros", "pounds", "yen", "rupees", 
+            "crore", "lakh", "money", "cash", "currency", "fortune", "wealth",
+            "profit", "free", "discount", "sale", "bargain", "jackpot", "deal", "rich", "wealthy",
+            "investment", "budget", "savings", "income", "revenue", "earnings", "salary", "wage",
+            "bonus", "dividend", "interest", "capital", "assets", "equity", "stock", "shares",
+            "portfolio", "fund", "retirement", "pension", "inheritance", "bankruptcy", "debt",
+            "loan", "mortgage", "credit", "tax", "inflation", "economy", "recession", "depression",
+            "affordable", "expensive", "luxury", "premium", "exclusive", "elite", "high-end",
+            "budget", "cheap", "cost-effective", "valuable", "worthless", "priceless",
+            "overpriced", "underpriced", "worthwhile", "worth it", "price tag"
+            ],
+            
+            "emotion": [
+            "love", "hate", "joy", "fear", "anger", "sadness", "disgust", "shame", "guilt",
+            "happy", "sad", "angry", "scared", "afraid", "worried", "anxious", "nervous",
+            "stressed", "content", "satisfied", "frustrated", "annoyed", "irritated",
+            "furious", "enraged", "thrilled", "ecstatic", "delighted", "pleased", "grateful",
+            "thankful", "calm", "peaceful", "serene", "relaxed",
+            "excited", "terrified", "devastated", "emotional", "crying", "laughing", "screaming",
+            "frightened", "heartbreaking", "heartwarming", "touching", "moved", "inspired",
+            "motivated", "discouraged", "hopeful", "hopeless", "depressed", "overwhelmed",
+            "underwhelmed", "astonished", "surprised", "shocked", "stunned", "speechless",
+            "numb", "confused", "bewildered", "curious", "intrigued", "fascinated",
+            "beautiful", "ugly", "amazing", "awful", "wonderful", "terrible", "fantastic",
+            "horrible", "brilliant", "dreadful", "great", "worst", "best", "hilarious",
+            "embarrassing", "humiliating", "empowering", "uplifting", "disappointing",
+            "satisfying", "fulfilling", "draining", "exhausting", "refreshing", "rejuvenating",
+            "boring", "exciting", "soothing", "disturbing", "comforting", "unsettling"
+            ],
+            
+            "emphasis": [
+            "very", "extremely", "absolutely", "completely", "totally", "literally",
+            "honestly", "seriously", "really", "so", "super", "ultra", "mega", "hyper",
+            "intensely", "immensely", "incredibly", "exceedingly", "exceptionally",
+            "extraordinarily", "remarkably", "unusually", "notably", "particularly",
+            "especially", "highly", "greatly", "vastly", "enormously", "tremendously",
+            "always", "never", "forever", "everyone", "everybody", "anyone", "anybody",
+            "no one", "nobody", "everything", "anything", "nothing", "everywhere",
+            "anywhere", "nowhere", "all", "none", "every", "any", "most", "many",
+            "few", "several", "countless", "numberless", "infinite", "limitless",
+            "!", "!!", "!!!", "CAPS", "ALL CAPS", "UPPERCASE", "bold", "italics",
+            "underline", "*", "**", "***"
+            ],
+        }
 
         
         # Emotion indicators in text
@@ -115,7 +154,7 @@ class HighlightDetector:
         return score
     
     def find_highlights(self, transcript: List[dict], min_duration: float = 25, 
-                       max_duration: float = 60, num_clips: int = 3) -> List[Highlight]:
+                       max_duration: float = 60, num_clips: int = 3, vid_file: bool = False) -> List[Highlight]:
         """Find the most engaging segments in the transcript"""
         highlights = []
         current_segment = {'text': [], 'start': 0, 'duration': 0}
@@ -123,12 +162,14 @@ class HighlightDetector:
         for segment in transcript:
             # Accumulate segments until we hit minimum duration
             current_segment['text'].append(segment['text'])
-            # current_segment['duration'] += (segment['end'] - segment['start'])
-            current_segment['duration'] += segment['duration']
+            if vid_file:
+                current_segment['duration'] += (segment['end'] - segment['start'])
+            else:
+                current_segment['duration'] += segment['duration']
             if current_segment['duration'] >= min_duration:
                 text = ' '.join(current_segment['text'])
                 score = self.score_segment(text)
-                
+                print(score)
                 if current_segment['duration'] <= max_duration:
                     highlights.append(Highlight(
                         start_time=current_segment['start'],

@@ -28,29 +28,33 @@ def ensure_directories():
     for dir_name in dirs:
         os.makedirs(dir_name, exist_ok=True)
 
-def process_video(url: str, max_clips: int = 3):
+def process_video(url: str, max_clips: int = 3, file: bool = False):
     """Process a YouTube video and create shorts"""
     ensure_directories()
+    print("file: " + url)
     
     # Initialize components
     video_proc = VideoProcessor()
     highlight_detector = HighlightDetector()
     subtitle_gen = SubtitleGenerator()
-    
-    # Step 1: Download video
-    print("Downloading video...")
-    video_path = video_proc.download_video(url)
+    if not file:
+        # Step 1: Download video
+        print("Downloading video...")
+        video_path = video_proc.download_video(url)
+        
+        video_id = extract_video_id(url)  # Only the ID, not full URL
+        result = YouTubeTranscriptApi.get_transcript(video_id)
 
-    # Step 2: Extract audio
-    print("Extracting audio...")
-    audio_path = video_proc.extract_audio(video_path)
-
-    # Step 3: Transcribe audio
-    print("Transcribing audio...")
-    # model = whisper.load_model("base")
-    # result = model.transcribe(audio_path)
-    video_id = extract_video_id(url)  # Only the ID, not full URL
-    result = YouTubeTranscriptApi.get_transcript(video_id)
+    else:
+        video_path = url
+        # Step 2: Extract audio
+        print("Extracting audio...")
+        audio_path = video_proc.extract_audio(video_path)
+        
+        # Step 3: Transcribe audio
+        print("Transcribing audio...")
+        model = whisper.load_model("base")
+        result = model.transcribe(audio_path)
 
     # Save transcript
     transcript_path = os.path.join("transcripts", f"{os.path.splitext(os.path.basename(video_path))[0]}.json")
@@ -59,7 +63,7 @@ def process_video(url: str, max_clips: int = 3):
     
     # Step 4: Detect highlights
     print("Finding highlights...")
-    highlights = highlight_detector.find_highlights(result, num_clips=max_clips)
+    highlights = highlight_detector.find_highlights(result['segments'] if file else result, num_clips=max_clips, vid_file=file)
     
     # Step 5: Create clips
     print("Creating clips...")

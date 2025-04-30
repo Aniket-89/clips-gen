@@ -38,7 +38,12 @@ pip install -r requirements.txt
 
 ## Usage
 
-Basic usage:
+Basic UI usage:
+```bash
+streamlit run app.py
+```
+
+CLI Usage
 ```bash
 python main.py "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
@@ -60,12 +65,12 @@ The tool creates several directories:
 ## How It Works
 
 1. Downloads the YouTube video using yt-dlp
-2. Extracts audio for transcription
-3. Transcribes audio using Whisper
+2. Downloads the transcription using youtube_transcript_api
+<!-- 3. Transcribes audio using Whisper -->
 4. Analyzes transcript to find engaging segments
 5. Clips and formats videos to vertical format
-6. Adds styled captions
-7. Exports final shorts
+<!-- 6. Adds styled captions -->
+<!-- 7. Exports final shorts -->
 
 ## Highlight Detection
 

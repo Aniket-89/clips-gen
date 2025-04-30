@@ -1,14 +1,14 @@
-vid/
-venv/
+vid
+venv
 .venv
 .env
 
-audio/
-captions/
-clips/
-input/
-output/
-transcripts/
+audio
+captions
+clips
+input
+output
+transcriptss
 
 *.mp3
 *.mp4

@@ -16,4 +16,3 @@ t_path = "tra.json"
 with open(t_path, 'w') as f:
     json.dump(result, f, indent=2)
     
-print(result["text"])

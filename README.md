@@ -1,10 +1,19 @@
 # 🎬 TetsuAi
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Built%20With-Streamlit-orange?logo=streamlit)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+![Open Source Love](https://img.shields.io/badge/Open%20Source-%F0%9F%92%9A-blue)
+![Whisper](https://img.shields.io/badge/Transcription-OpenAI%20Whisper-purple?logo=openai)
+![yt-dlp](https://img.shields.io/badge/YouTube%20Downloader-yt--dlp-red?logo=youtube)
+![ffmpeg](https://img.shields.io/badge/Video%20Editing-FFmpeg-black?logo=ffmpeg)
+
 An AI-powered tool to **automatically generate viral YouTube Shorts** from long-form videos.
 
 🚀 Save hours of manual editing. Just input a YouTube link — and get punchy, vertical clips ready to go.
 
-![Open Source](https://img.shields.io/badge/Open%20Source-Yes-brightgreen)
+
 ---
 
 ## ✨ Features

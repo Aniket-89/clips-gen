@@ -1,0 +1,15 @@
+vid/
+venv/
+.venv
+.env
+
+audio/
+captions/
+clips/
+input/
+output/
+transcripts/
+
+*.mp3
+*.mp4
+*.json

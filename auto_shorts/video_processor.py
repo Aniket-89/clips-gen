@@ -16,6 +16,9 @@ class VideoProcessor:
         ydl_opts = {
             'format': 'best[ext=mp4]',
             'outtmpl': output_path,
+            'http_headers': {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            }
         }
         
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
